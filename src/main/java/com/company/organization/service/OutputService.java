@@ -2,9 +2,6 @@ package com.company.organization.service;
 
 import com.company.organization.data.Employee;
 
-/**
- * An interface for services that output information about an employee's subordinates.
- */
 public interface OutputService {
 
     /**

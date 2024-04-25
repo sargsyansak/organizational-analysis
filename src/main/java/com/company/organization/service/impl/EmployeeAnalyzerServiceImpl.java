@@ -1,9 +1,9 @@
 package com.company.organization.service.impl;
 
-import com.company.organization.service.EmployeeAnalyzerService;
-import com.company.organization.service.OutputService;
 import com.company.organization.config.PropertiesLoader;
 import com.company.organization.data.Employee;
+import com.company.organization.service.EmployeeAnalyzerService;
+import com.company.organization.service.OutputService;
 
 import java.util.List;
 import java.util.Map;

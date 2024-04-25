@@ -1,10 +1,10 @@
 package com.company.organization.service.impl;
 
-import com.company.organization.service.CsvReaderService;
+import com.company.organization.data.Employee;
 import com.company.organization.exception.CsvIOException;
 import com.company.organization.exception.InvalidCsvDataException;
 import com.company.organization.exception.InvalidCsvStructureException;
-import com.company.organization.data.Employee;
+import com.company.organization.service.CsvReaderService;
 import com.company.organization.util.NumberUtils;
 
 import java.io.IOException;

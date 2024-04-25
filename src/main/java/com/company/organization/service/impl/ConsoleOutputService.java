@@ -1,8 +1,8 @@
 package com.company.organization.service.impl;
 
-import com.company.organization.service.OutputService;
 import com.company.organization.config.PropertiesLoader;
 import com.company.organization.data.Employee;
+import com.company.organization.service.OutputService;
 
 import static java.lang.System.out;
 

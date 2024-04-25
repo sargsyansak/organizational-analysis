@@ -31,8 +31,4 @@ public record Employee(
     public boolean hasSubordinates() {
         return subordinates != null && !subordinates.isEmpty();
     }
-
-    public Employee copyImmutable() {
-        return new Employee(id, firstName, lastName, salary, managerId, Collections.unmodifiableList(subordinates));
-    }
 }
