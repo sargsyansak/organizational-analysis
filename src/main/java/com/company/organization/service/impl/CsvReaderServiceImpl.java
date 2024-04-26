@@ -5,7 +5,6 @@ import com.company.organization.exception.CsvIOException;
 import com.company.organization.exception.InvalidCsvDataException;
 import com.company.organization.exception.InvalidCsvStructureException;
 import com.company.organization.service.CsvReaderService;
-import com.company.organization.util.NumberUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +17,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.company.organization.util.FileValidator.validateFile;
+import static com.company.organization.util.NumberUtils.isPositive;
+import static com.company.organization.util.NumberUtils.parseInt;
 import static com.company.organization.util.StringUtils.isEmpty;
 
 public class CsvReaderServiceImpl implements CsvReaderService {
@@ -78,15 +79,15 @@ public class CsvReaderServiceImpl implements CsvReaderService {
             throw new InvalidCsvDataException(message);
         }
 
-        int id = NumberUtils.parseInt(row[ID_INDEX].trim());
-        if (!NumberUtils.isPositive(id)) {
+        int id = parseInt(row[ID_INDEX].trim());
+        if (!isPositive(id)) {
             String message = String.format("Invalid ID or salary value: ID=%d", id);
             logger.warning(message);
             throw new InvalidCsvDataException(message);
         }
 
-        int salary = NumberUtils.parseInt(row[SALARY_INDEX].trim());
-        if (!NumberUtils.isPositive(salary)) {
+        int salary = parseInt(row[SALARY_INDEX].trim());
+        if (!isPositive(salary)) {
             String message = String.format("Invalid ID or salary value: salary=%d", salary);
             logger.warning(message);
             throw new InvalidCsvDataException(message);

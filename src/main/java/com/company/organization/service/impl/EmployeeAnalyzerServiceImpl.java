@@ -27,7 +27,7 @@ public class EmployeeAnalyzerServiceImpl implements EmployeeAnalyzerService {
         Optional<Employee> ceo = retrieveCeo(employees);
         ceo.ifPresent(manager -> {
             List<EmployeeInfo> employeeInfos = analyzeEmployeeHierarchy(manager, 0);
-            outputService.outputSubordinates(employeeInfos, 0);
+            outputService.outputSubordinates(employeeInfos);
         });
     }
 

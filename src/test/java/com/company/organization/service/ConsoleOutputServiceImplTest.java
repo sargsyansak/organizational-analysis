@@ -39,31 +39,23 @@ class ConsoleOutputServiceImplTest {
 
     @Test
     void outputSubordinates_outputsExpectedResultsTest() {
+        SalaryInfo salaryInfo = SalaryInfo.inRange();
 
-        SalaryInfo salaryInfoLess = SalaryInfo.of(-1, 5000);
-        SalaryInfo salaryInfoMore = SalaryInfo.of(1, 7000);
-        SalaryInfo salaryInfoInRange = SalaryInfo.inRange();
+        EmployeeInfo employeeInfo = new EmployeeInfo();
+        employeeInfo.setEmployeeIdentity("John Doe");
+        employeeInfo.setSalaryInfo(salaryInfo);
+        employeeInfo.setExceedsReportingLineMaxDepth(false);
 
-        EmployeeInfo employeeEarnsLess = new EmployeeInfo();
-        employeeEarnsLess.setEmployeeIdentity("John Doe");
-        employeeEarnsLess.setSalaryInfo(salaryInfoLess);
-        employeeEarnsLess.setExceedsReportingLineMaxDepth(false);
+        EmployeeInfo employeeExceedsReportingLineMaxDepth = new EmployeeInfo();
+        employeeExceedsReportingLineMaxDepth.setEmployeeIdentity("Jane Doe");
+        employeeExceedsReportingLineMaxDepth.setSalaryInfo(salaryInfo);
+        employeeExceedsReportingLineMaxDepth.setExceedsReportingLineMaxDepth(true);
+        employeeExceedsReportingLineMaxDepth.setExceedsReportingLineMaxDepthBy(1);
 
-        EmployeeInfo employeeEarnsMore = new EmployeeInfo();
-        employeeEarnsMore.setEmployeeIdentity("Jane Doe");
-        employeeEarnsMore.setSalaryInfo(salaryInfoMore);
-        employeeEarnsMore.setExceedsReportingLineMaxDepth(false);
-
-        EmployeeInfo employeeInRange = new EmployeeInfo();
-        employeeInRange.setEmployeeIdentity("In-Range Employee");
-        employeeInRange.setSalaryInfo(salaryInfoInRange);
-        employeeInRange.setExceedsReportingLineMaxDepth(true);
-        employeeInRange.setExceedsReportingLineMaxDepthBy(2);
-
-        List<EmployeeInfo> employeeInfos = List.of(employeeEarnsLess, employeeEarnsMore, employeeInRange);
+        List<EmployeeInfo> employeeInfos = List.of(employeeInfo, employeeExceedsReportingLineMaxDepth);
 
         ConsoleOutputServiceImpl service = new ConsoleOutputServiceImpl();
-        service.outputSubordinates(employeeInfos, 2);
+        service.outputSubordinates(employeeInfos);
 
         String expectedOutput = buildExpectedOutput(employeeInfos);
         assertEquals(expectedOutput, outContent.toString());
@@ -82,6 +74,9 @@ class ConsoleOutputServiceImplTest {
                             employeeInfo.getSalaryInfo().getSalaryRangeDifference());
                     expectedOutput.append(employeeInfoText).append(ls);
                 });
+        if (employeeInfos.stream().noneMatch(EmployeeInfo::earnsLess)) {
+            expectedOutput.append("There are no employees in this category. All good!!!").append(ls);
+        }
         expectedOutput.append("************************").append(ls).append(ls);
         expectedOutput.append("************************").append(ls);
         expectedOutput.append("Employees that earns more than expected").append(ls);
@@ -93,6 +88,9 @@ class ConsoleOutputServiceImplTest {
                             employeeInfo.getSalaryInfo().getSalaryRangeDifference());
                     expectedOutput.append(employeeInfoText).append(ls);
                 });
+        if (employeeInfos.stream().noneMatch(EmployeeInfo::earnsMore)) {
+            expectedOutput.append("There are no employees in this category. All good!!!").append(ls);
+        }
         expectedOutput.append("************************").append(ls).append(ls);
         expectedOutput.append("************************").append(ls);
         expectedOutput.append("Employees that exceeds max allowed reporting line.").append(ls);
@@ -100,7 +98,7 @@ class ConsoleOutputServiceImplTest {
                 .filter(EmployeeInfo::isExceedsReportingLineMaxDepth)
                 .toList();
         if (employeesWithHighReportingLine.isEmpty()) {
-            expectedOutput.append("There are no employees who exceeds reporting line max depth. All good!!!").append(ls);
+            expectedOutput.append("There are no employees in this category. All good!!!").append(ls);
         } else {
             employeesWithHighReportingLine.forEach(employeeInfo -> {
                 String employeeInfoText = String.format("Employee %s exceeds reporting line max depth by %s.",
@@ -109,6 +107,7 @@ class ConsoleOutputServiceImplTest {
                 expectedOutput.append(employeeInfoText).append(ls);
             });
         }
+
         expectedOutput.append("************************").append(ls);
 
         return expectedOutput.toString();

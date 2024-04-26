@@ -12,25 +12,35 @@ public class ConsoleOutputServiceImpl implements OutputService {
     public static final String LINE_DELIMITER = "************************";
 
     @Override
-    public void outputSubordinates(List<EmployeeInfo> employeeInfos, int reportingLineDepth) {
+    public void outputSubordinates(List<EmployeeInfo> employeeInfos) {
         out.println(LINE_DELIMITER);
         out.println("Employees that earns less than expected");
-        employeeInfos.stream().filter(EmployeeInfo::earnsLess).forEach(employeeInfo -> {
-            String employeeInfoText = String.format("Employee %s earns less than expected by %s.",
-                    employeeInfo.getEmployeeIdentity(),
-                    employeeInfo.getSalaryInfo().getSalaryRangeDifference());
-            out.println(employeeInfoText);
-        });
+        List<EmployeeInfo> employeesEarnsLess = employeeInfos.stream().filter(EmployeeInfo::earnsLess).toList();
+        if (employeesEarnsLess.isEmpty()) {
+            printEmptyResultMessage();
+        } else {
+            employeesEarnsLess.forEach(employeeInfo -> {
+                String employeeInfoText = String.format("Employee %s earns less than expected by %s.",
+                        employeeInfo.getEmployeeIdentity(),
+                        employeeInfo.getSalaryInfo().getSalaryRangeDifference());
+                out.println(employeeInfoText);
+            });
+        }
         out.println(LINE_DELIMITER);
         out.println();
         out.println(LINE_DELIMITER);
         out.println("Employees that earns more than expected");
-        employeeInfos.stream().filter(EmployeeInfo::earnsMore).forEach(employeeInfo -> {
-            String employeeInfoText = String.format("Employee %s earns more than expected by %s.",
-                    employeeInfo.getEmployeeIdentity(),
-                    employeeInfo.getSalaryInfo().getSalaryRangeDifference());
-            out.println(employeeInfoText);
-        });
+        List<EmployeeInfo> employeesEarnsMore = employeeInfos.stream().filter(EmployeeInfo::earnsMore).toList();
+        if (employeesEarnsMore.isEmpty()) {
+            printEmptyResultMessage();
+        } else {
+            employeesEarnsMore.forEach(employeeInfo -> {
+                String employeeInfoText = String.format("Employee %s earns more than expected by %s.",
+                        employeeInfo.getEmployeeIdentity(),
+                        employeeInfo.getSalaryInfo().getSalaryRangeDifference());
+                out.println(employeeInfoText);
+            });
+        }
         out.println(LINE_DELIMITER);
         out.println();
         out.println(LINE_DELIMITER);
@@ -39,7 +49,7 @@ public class ConsoleOutputServiceImpl implements OutputService {
                 .filter(EmployeeInfo::isExceedsReportingLineMaxDepth)
                 .toList();
         if (employeesWithHighReportingLine.isEmpty()) {
-            out.println("There are no employees who exceeds reporting line max depth. All good!!!");
+            printEmptyResultMessage();
         } else {
             employeesWithHighReportingLine.forEach(employeeInfo -> {
                 String employeeInfoText = String.format("Employee %s exceeds reporting line max depth by %s.",
@@ -50,5 +60,9 @@ public class ConsoleOutputServiceImpl implements OutputService {
         }
 
         out.println(LINE_DELIMITER);
+    }
+
+    private static void printEmptyResultMessage() {
+        out.println("There are no employees in this category. All good!!!");
     }
 }

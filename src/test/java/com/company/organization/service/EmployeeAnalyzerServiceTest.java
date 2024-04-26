@@ -47,7 +47,7 @@ class EmployeeAnalyzerServiceTest {
         EmployeeAnalyzerServiceImpl analyzer = new EmployeeAnalyzerServiceImpl();
 
         analyzer.processAnalyze(employees);
-        assertTrue(outputStreamCaptor.toString().trim().contains("There are no employees who exceeds reporting line max depth. All good!!!"));
+        assertTrue(outputStreamCaptor.toString().trim().contains("There are no employees in this category. All good!!!"));
     }
 
     @Test
@@ -65,7 +65,7 @@ class EmployeeAnalyzerServiceTest {
         EmployeeAnalyzerServiceImpl analyzer = new EmployeeAnalyzerServiceImpl();
 
         analyzer.processAnalyze(employees);
-        assertTrue(outputStreamCaptor.toString().trim().contains("There are no employees who exceeds reporting line max depth. All good!!!"));
+        assertTrue(outputStreamCaptor.toString().trim().contains("There are no employees in this category. All good!!!"));
 
     }
 
@@ -92,7 +92,7 @@ class EmployeeAnalyzerServiceTest {
 
                 ************************
                 Employees that exceeds max allowed reporting line.
-                There are no employees who exceeds reporting line max depth. All good!!!
+                There are no employees in this category. All good!!!
                 ************************""";
 
         String actual = outputStreamCaptor.toString().trim().replace("\r", "");

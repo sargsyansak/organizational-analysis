@@ -13,7 +13,6 @@ public interface OutputService {
      * the maximum allowed reporting line depth.
      *
      * @param employeeInfos      The list of EmployeeInfo objects, each representing a different subordinate.
-     * @param reportingLineDepth The maximum depth of the reporting line.
      */
-    void outputSubordinates(List<EmployeeInfo> employeeInfos, int reportingLineDepth);
+    void outputSubordinates(List<EmployeeInfo> employeeInfos);
 }
