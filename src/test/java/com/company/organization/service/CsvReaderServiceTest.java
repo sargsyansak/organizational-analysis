@@ -7,6 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class validates the functionality of CsvReaderServiceImpl.
+ * The readEmployeesDataFromCsvFileTest method checks CSV data parsing and Employee object creation.
+ * The readEmployeesDataFromCsvFile_bigDataTest checks if the method can handle large data.
+ * Other tests validate error handling for various incorrect CSV data formats like non-existing file, invalid file,
+ * empty file, invalid managerId reference, negative salary, empty name field, CSV file with extra columns and file with negative ID.
+ */
 class CsvReaderServiceTest {
 
     @Test
